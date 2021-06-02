@@ -5,7 +5,7 @@
 
 import os
 import matplotlib
-if os.path.exists("/Users/yulia"):
+if (os.path.exists("/Users/yulia") or os.path.exists("/Users/manugallrdo") or os.path.exists("/home/mgallardo")): 
 	matplotlib.use('TkAgg')
 else:
 	matplotlib.use('Agg')
