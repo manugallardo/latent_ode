@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File-noviz",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "--niters",
+                "500",
+                "-n",
+                "1000",
+                "-l",
+                "10",
+                "--dataset",
+                "periodic",
+                "--latent-ode",
+                "--poisson",
+            ]
+            
+        },
+        {
+            "name": "Python: Current File-viz",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "--niters",
+                "500",
+                "-n",
+                "1000",
+                "-l",
+                "10",
+                "--dataset",
+                "periodic",
+                "--latent-ode",
+                "--poisson",
+                "--viz"
+            ]
+        }
+    ]
+}

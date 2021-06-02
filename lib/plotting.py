@@ -5,12 +5,8 @@
 import os
 
 import matplotlib
-# matplotlib.use('TkAgg')
-if (os.path.exists("/Users/yulia") or os.path.exists("/Users/manugallrdo") or os.path.exists("/home/mgallardo")): 
-	matplotlib.use('TkAgg')
-else:
-	matplotlib.use('Agg')
-#matplotlib.use('Agg')
+matplotlib.use('TkAgg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
