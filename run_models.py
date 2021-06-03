@@ -36,6 +36,8 @@ from mujoco_physics import HopperPhysics
 
 from lib.utils import compute_loss_all_batches
 
+from tensorboardX import SummaryWriter
+
 # Generative model for noisy data based on ODE
 parser = argparse.ArgumentParser('Latent ODE')
 parser.add_argument('-n',  type=int, default=100, help="Size of the dataset")
@@ -98,6 +100,9 @@ utils.makedirs(args.save)
 #####################################################################################################
 
 if __name__ == '__main__':
+
+	writer = SummaryWriter('run/profiler')
+
 	torch.manual_seed(args.random_seed)
 	np.random.seed(args.random_seed)
 
@@ -224,6 +229,9 @@ if __name__ == '__main__':
 			n_labels = n_labels)
 	else:
 		raise Exception("Model not specified")
+
+
+	writer.add_graph(model)
 
 	##################################################################
 
