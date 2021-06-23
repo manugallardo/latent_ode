@@ -3,5 +3,4 @@ __pycache__/
 logs/
 experiments/
 run/
-.vscode/
 .vscode/settings.json
