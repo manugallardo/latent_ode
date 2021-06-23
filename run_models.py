@@ -231,7 +231,7 @@ if __name__ == '__main__':
 		raise Exception("Model not specified")
 
 
-	writer.add_graph(model)
+	# writer.add_graph(model)
 
 	##################################################################
 
