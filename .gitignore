@@ -4,3 +4,4 @@ logs/
 experiments/
 run/
 .vscode/
+.vscode/settings.json
