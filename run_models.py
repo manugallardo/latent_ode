@@ -101,7 +101,7 @@ utils.makedirs(args.save)
 
 if __name__ == '__main__':
 
-	writer = SummaryWriter('run/profiler')
+	# writer = SummaryWriter('run/profiler')
 
 	torch.manual_seed(args.random_seed)
 	np.random.seed(args.random_seed)
