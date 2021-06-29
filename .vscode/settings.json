@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/manugallardo/opt/anaconda3/envs/my-dev-env/bin/python",
+    "python.pythonPath": "/home/mgallardo/anaconda3/envs/my-dev-env/bin/python",
     "jupyter.jupyterServerType": "local",
     "python.venvPath": "/Users/manugallardo/opt/anaconda3/envs/my-dev-env/lib/python3.8/site-packages/pyspark/jars",
     "python.linting.enabled": false,
