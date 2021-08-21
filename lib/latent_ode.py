@@ -119,10 +119,16 @@ class LatentODE(VAE_Baseline):
 		# starting_point = starting_point.view(1,1,input_dim)
 
 		# Sample z0 from prior
-		starting_point_enc = self.z0_prior.sample([n_traj_samples, 1, self.latent_dim]).squeeze(-1)
-
-		starting_point_enc_aug = starting_point_enc
 		if self.use_poisson_proc:
+			starting_point_enc = self.z0_prior.sample([n_traj_samples, 1, self.latent_dim*2]).squeeze(-1)
+			starting_point_enc_aug = starting_point_enc
+			n_traj_samples, n_traj, n_dims = starting_point_enc.size()
+			# append a vector of zeros to compute the integral of lambda
+			zeros = torch.zeros(n_traj_samples, n_traj,self.input_dim).to(self.device)
+			starting_point_enc_aug = torch.cat((starting_point_enc, zeros), -1)
+		else:
+			starting_point_enc = self.z0_prior.sample([n_traj_samples, 1, self.latent_dim]).squeeze(-1)
+			starting_point_enc_aug = starting_point_enc
 			n_traj_samples, n_traj, n_dims = starting_point_enc.size()
 			# append a vector of zeros to compute the integral of lambda
 			zeros = torch.zeros(n_traj_samples, n_traj,self.input_dim).to(self.device)

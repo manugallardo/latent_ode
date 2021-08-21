@@ -105,7 +105,7 @@ def plot_vector_field(ax, odefunc, latent_dim, device):
 	zs = torch.from_numpy(np.stack([x, y], -1).reshape(K * K, 2)).to(device, torch.float32)
 	if latent_dim > 2:
 		# Plots dimensions 0 and 2
-		zs = torch.cat((zs, torch.zeros(K * K, latent_dim-2)), 1)
+		zs = torch.cat((zs, torch.zeros(K * K, latent_dim-2).to(device, torch.float32)), 1)
 	dydt = odefunc(0, zs)
 	dydt = -dydt.cpu().detach().numpy()
 	if latent_dim > 2:
@@ -394,9 +394,9 @@ class Visualizations():
 			# Since in this case n_traj = 1, n_traj_samples -- requested number of samples from the prior, squeeze n_traj dimension
 			traj_from_prior = traj_from_prior.squeeze(1)
 
-			plot_trajectories(self.ax_traj_from_prior, traj_from_prior, time_steps_to_predict, 
-				marker = '', linewidth = 3)
-			self.ax_traj_from_prior.set_title("Samples from prior (data space)", pad = 20)
+			# plot_trajectories(self.ax_traj_from_prior, traj_from_prior, time_steps_to_predict, 
+			# 	marker = '', linewidth = 3)
+			# self.ax_traj_from_prior.set_title("Samples from prior (data space)", pad = 20)
 			#self.set_plot_lims(self.ax_traj_from_prior, "traj_from_prior")
 		################################################
 
@@ -414,10 +414,13 @@ class Visualizations():
 
 		################################################
 		# Show vector field
-		self.ax_vector_field.cla()
-		plot_vector_field(self.ax_vector_field, model.diffeq_solver.ode_func, model.latent_dim, device)
-		self.ax_vector_field.set_title("Slice of vector field (latent space)", pad = 20)
-		self.set_plot_lims(self.ax_vector_field, "vector_field")
+		# self.ax_vector_field.cla()
+		# if model.use_poisson_proc:
+		# 	plot_vector_field(self.ax_vector_field, model.diffeq_solver.ode_func, model.latent_dim*2, device)
+		# else:
+		# 	plot_vector_field(self.ax_vector_field, model.diffeq_solver.ode_func, model.latent_dim, device)
+		# self.ax_vector_field.set_title("Slice of vector field (latent space)", pad = 20)
+		# self.set_plot_lims(self.ax_vector_field, "vector_field")
 		#self.ax_vector_field.set_ylim((-0.5, 1.5))
 
 		################################################

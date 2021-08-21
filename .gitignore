@@ -4,3 +4,4 @@ logs/
 experiments/
 run/
 .vscode/settings.json
+plots/
