@@ -174,8 +174,9 @@ class Visualizations():
         # 	self.ax_density.append(self.fig.add_subplot(3,3,i, frameon=False))
 
         #self.ax_samples_same_traj = self.fig.add_subplot(3,3,7, frameon=False)
-        self.ax_latent_traj = self.fig.add_subplot(2,3,(4,5), frameon=False)
-        self.ax_lambda = self.fig.add_subplot(2,3,6, frameon=False)
+        self.ax_lambda_0 = self.fig.add_subplot(2,3,4, frameon=False)
+        self.ax_latent_traj = self.fig.add_subplot(2,3,5, frameon=False)
+        self.ax_lambda_2o = self.fig.add_subplot(2,3,6, frameon=False)
         # self.ax_vector_field = self.fig.add_subplot(2,3,5, frameon=False)
         # self.ax_traj_from_prior = self.fig.add_subplot(2,3,6, frameon=False)
 
@@ -461,9 +462,14 @@ class Visualizations():
 
         ############################################
         # # Plot lambdas
-        self.ax_lambda.cla()
-        plot_trajectories(self.ax_lambda,
+        self.ax_lambda_0.cla()
+        plot_trajectories(self.ax_lambda_0,
             lambda_for_plotting[0].unsqueeze(0), time_steps_to_predict, 
+            title="Sample 0 ($\lambda(t)$)", dim_to_show = dim_to_show, 
+            marker = '', color = cmap(5), linewidth = 3)
+        self.ax_lambda_2.cla()
+        plot_trajectories(self.ax_lambda_2,
+            lambda_for_plotting[2].unsqueeze(0), time_steps_to_predict, 
             title="Sample 2 ($\lambda(t)$)", dim_to_show = dim_to_show, 
             marker = '', color = cmap(5), linewidth = 3)
 
