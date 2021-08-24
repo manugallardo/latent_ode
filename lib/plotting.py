@@ -51,7 +51,7 @@ def init_fonts(main_font_size = LARGE_SIZE):
     plt.rc('xtick', labelsize=main_font_size - 2)    # fontsize of the tick labels
     plt.rc('ytick', labelsize=main_font_size - 2)    # fontsize of the tick labels
     plt.rc('legend', fontsize=main_font_size - 2)    # legend fontsize
-    plt.rc('figure', titlesize=main_font_size - 2)  # fontsize of the figure title
+    plt.rc('figure', titlesize=main_font_size)  # fontsize of the figure title
 
 
 def plot_trajectories(ax, traj, time_steps, min_y = None, max_y = None, title = "", 
@@ -165,14 +165,19 @@ class Visualizations():
         for i in range(1,4):
             self.ax_traj.append(self.fig.add_subplot(2,3,i, frameon=False))
 
-        self.ax_density = []
-        for i in range(4,7):
-        	self.ax_density.append(self.fig.add_subplot(3,3,i, frameon=False))
+        # self.ax_lambda = []
+        # for i in range(4,7):
+        #     self.ax_lambda.append(self.fig.add_subplot(3,3,i, frameon=False))
+
+        # self.ax_density = []
+        # for i in range(4,7):
+        # 	self.ax_density.append(self.fig.add_subplot(3,3,i, frameon=False))
 
         #self.ax_samples_same_traj = self.fig.add_subplot(3,3,7, frameon=False)
-        self.ax_latent_traj = self.fig.add_subplot(2,3,4, frameon=False)
-        self.ax_vector_field = self.fig.add_subplot(2,3,5, frameon=False)
-        self.ax_traj_from_prior = self.fig.add_subplot(2,3,6, frameon=False)
+        self.ax_latent_traj = self.fig.add_subplot(2,3,(4,5), frameon=False)
+        self.ax_lambda = self.fig.add_subplot(2,3,6, frameon=False)
+        # self.ax_vector_field = self.fig.add_subplot(2,3,5, frameon=False)
+        # self.ax_traj_from_prior = self.fig.add_subplot(2,3,6, frameon=False)
 
         self.plot_limits = {}
         plt.show(block=False)
@@ -332,6 +337,7 @@ class Visualizations():
         mask_for_plotting = observed_mask[:n_traj_to_show]
         reconstructions_for_plotting = reconstructions.mean(dim=0)[:n_traj_to_show]
         reconstr_std = reconstructions.std(dim=0)[:n_traj_to_show]
+        lambda_for_plotting = info['log_lambda_y'].mean(dim=0)[:n_traj_to_show]
 
         dim_to_show = 0
         max_y = max(
@@ -363,6 +369,7 @@ class Visualizations():
                 reconstructions_for_plotting[traj_id].unsqueeze(0), reconstr_std[traj_id].unsqueeze(0), 
                 time_steps_to_predict, alpha=0.5, color = cmap(3))
             self.set_plot_lims(self.ax_traj[traj_id], "traj_" + str(traj_id))
+
             
             # Plot true posterior and approximate posterior
             # self.draw_one_density_plot(self.ax_density[traj_id],
@@ -370,6 +377,8 @@ class Visualizations():
             #     multiply_by_poisson = True)
             # self.set_plot_lims(self.ax_density[traj_id], "density_" + str(traj_id))
             # self.ax_density[traj_id].set_title("Sample {}: p(z0) and q(z0 | x)".format(traj_id))
+
+
         ############################################
         # Get several samples for the same trajectory
         # one_traj = data_for_plotting[:1]
@@ -386,18 +395,18 @@ class Visualizations():
         ############################################
         # Plot trajectories from prior
         
-        if isinstance(model, LatentODE):
-            torch.manual_seed(1991)
-            np.random.seed(1991)
+        # if isinstance(model, LatentODE):
+        #     torch.manual_seed(1991)
+        #     np.random.seed(1991)
 
-            traj_from_prior = model.sample_traj_from_prior(time_steps_to_predict, n_traj_samples = 3)
-            # Since in this case n_traj = 1, n_traj_samples -- requested number of samples from the prior, squeeze n_traj dimension
-            traj_from_prior = traj_from_prior.squeeze(1)
+        #     traj_from_prior = model.sample_traj_from_prior(time_steps_to_predict, n_traj_samples = 3)
+        #     # Since in this case n_traj = 1, n_traj_samples -- requested number of samples from the prior, squeeze n_traj dimension
+        #     traj_from_prior = traj_from_prior.squeeze(1)
 
-            plot_trajectories(self.ax_traj_from_prior, traj_from_prior, time_steps_to_predict, 
-            	marker = '', linewidth = 3)
-            self.ax_traj_from_prior.set_title("Samples from prior (data space)", pad = 20)
-            self.set_plot_lims(self.ax_traj_from_prior, "traj_from_prior")
+        #     plot_trajectories(self.ax_traj_from_prior, traj_from_prior, time_steps_to_predict, 
+        #     	marker = '', linewidth = 3)
+        #     self.ax_traj_from_prior.set_title("Samples from prior (data space)", pad = 20)
+        #     self.set_plot_lims(self.ax_traj_from_prior, "traj_from_prior")
         ################################################
 
         # Plot z0
@@ -449,7 +458,17 @@ class Visualizations():
         self.ax_latent_traj.legend(custom_labels.values(), custom_labels.keys(), loc = 'lower left')
         self.set_plot_lims(self.ax_latent_traj, "latent_traj")
 
-        ################################################
+
+        ############################################
+        # # Plot lambdas
+        self.ax_lambda.cla()
+        plot_trajectories(self.ax_lambda,
+            lambda_for_plotting[0].unsqueeze(0), time_steps_to_predict, 
+            title="Sample 2 ($\lambda(t)$)", dim_to_show = dim_to_show, 
+            marker = '', color = cmap(5), linewidth = 3)
+
+        #############################################
+           
 
         self.fig.tight_layout()
         plt.draw()
