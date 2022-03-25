@@ -6,7 +6,7 @@
 import os
 import sys
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('TkAgg')
 import matplotlib.pyplot
 import matplotlib.pyplot as plt
 

@@ -5,7 +5,7 @@
 import os
 
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('TkAgg')
 import matplotlib.pyplot
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D

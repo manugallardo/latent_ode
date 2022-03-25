@@ -8,7 +8,7 @@ from __future__ import absolute_import, division
 from __future__ import print_function
 import os
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('TkAgg')
 
 import numpy as np
 import numpy.random as npr
